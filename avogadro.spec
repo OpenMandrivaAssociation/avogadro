@@ -19,7 +19,7 @@ BuildRequires:  openbabel-devel >= 2.2.3
 BuildRequires:  boost-devel >= 1.35
 BuildRequires:  glew-devel >= 1.5.0
 BuildRequires:  docbook-utils
-BuildRequires:  libosip2-devel
+BuildRequires:  python-sip
 BuildRequires:  python-numpy-devel
 Requires:	%libname = %{version}-%{release}
 
