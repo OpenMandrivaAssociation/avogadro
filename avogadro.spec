@@ -2,10 +2,9 @@
 %define major 1
 %define libname %mklibname %name %major
 
-
 Name:           avogadro
 Summary:        An advanced molecular editor for chemical purposes
-Group:          Applications/Editors
+Group:          System/Libraries
 Version:        1.0.1
 Release:        %mkrel 1
 License:        GPLv2
