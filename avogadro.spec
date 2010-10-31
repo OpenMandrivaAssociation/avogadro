@@ -22,6 +22,7 @@ BuildRequires:  glew-devel >= 1.5.0
 BuildRequires:  docbook-utils
 BuildRequires:  python-sip
 BuildRequires:  python-numpy-devel
+BuildRequires:	python-devel
 Requires:	%libname = %{version}-%{release}
 
 %description
