@@ -10,6 +10,7 @@ Release:        %mkrel 2
 License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+Patch0:		avogadro-1.0.1-fix-build-with-newer-sip.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -85,6 +86,7 @@ Development Avogadro files.
 #--------------------------------------------------------------------
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %{cmake_qt4}\
