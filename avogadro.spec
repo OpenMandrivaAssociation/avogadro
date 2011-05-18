@@ -5,14 +5,12 @@
 Name:           avogadro
 Summary:        An advanced molecular editor for chemical purposes
 Group:          System/Libraries
-Version:        1.0.1
-Release:        %mkrel 6
+Version:        1.0.3
+Release:        %mkrel 1
 License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
-Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-Patch0:		avogadro-1.0.1-fix-build-with-newer-sip.patch
-Patch1:		avogadro-1.0.1-py27.patch
-Patch2:		avogadro-1.0.1-mdv-fix-startup-crash-due-to-sip.patch
+Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Patch0:		avogadro-1.0.3-qtprefix.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -43,7 +41,7 @@ rendering and a powerful plugin architecture.
 %{_datadir}/applications/%name.desktop
 %{_mandir}/man1/%name.1*
 %{_mandir}/man1/avopkg.1*
-%{python_sitelib}/Avogadro.so
+%{python_sitearch}/Avogadro.so
 %{_datadir}/libavogadro/
 %dir %{_libdir}/%name/
 %dir %{_libdir}/%name/1_0/
@@ -82,29 +80,22 @@ Development Avogadro files.
 %{_libdir}/%name/*.cmake
 %{_libdir}/%name/1_0/*.cmake
 %{_libdir}/%name/1_0/cmake/
-%dir %{qt4dir}/mkspecs/features/
 %{qt4dir}/mkspecs/features/%name.prf
-
 
 #--------------------------------------------------------------------
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p0
-%patch2 -p0
 
 %build
-%{cmake_qt4}\
-	%{?ENABLE_TESTS} \
+%{cmake} \
 	-DENABLE_GLSL:BOOL=ON \
 	-DENABLE_PYTHON:BOOL=ON
-
 %make
 
 %install
 rm -rf %buidroot
 %makeinstall_std -C build
-
 
 %clean
 rm -rf %buildroot
