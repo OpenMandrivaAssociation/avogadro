@@ -11,6 +11,7 @@ License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.0.3-qtprefix.patch
+Patch1:		avogadro-1.0.3-replace-qt4_automoc-with-qt4_wrap_cpp.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -86,6 +87,7 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p1
 
 %build
 %{cmake} \
