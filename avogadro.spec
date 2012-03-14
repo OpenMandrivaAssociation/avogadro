@@ -87,7 +87,7 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1
+%patch1 -p1 -l
 
 %build
 %{cmake} \
