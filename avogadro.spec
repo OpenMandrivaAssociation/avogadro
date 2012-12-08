@@ -1,4 +1,3 @@
-%define debug_package %nil
 
 %define major 1
 %define libname %mklibname %name %major
@@ -7,13 +6,11 @@ Name:           avogadro
 Summary:        An advanced molecular editor for chemical purposes
 Group:          System/Libraries
 Version:        1.0.3
-Release:        4
+Release:        %mkrel 2
 License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.0.3-qtprefix.patch
-Patch1:		avogadro-1.0.3-replace-qt4_automoc-with-qt4_wrap_cpp.patch
-Patch2:		avogadro-1.0.3-fix-boost.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -23,6 +20,7 @@ BuildRequires:  openbabel-devel >= 2.2.3
 BuildRequires:  boost-devel >= 1.35
 BuildRequires:  glew-devel >= 1.5.0
 BuildRequires:  docbook-utils
+BuildRequires:  mesaglu-devel
 BuildRequires:  python-sip
 BuildRequires:  python-numpy-devel
 BuildRequires:	python-devel
@@ -89,8 +87,6 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1
-%patch2 -p1
 
 %build
 %{cmake} \
@@ -104,3 +100,41 @@ rm -rf %buidroot
 
 %clean
 rm -rf %buildroot
+
+
+%changelog
+* Wed May 18 2011 Funda Wang <fwang@mandriva.org> 1.0.3-1mdv2011.0
++ Revision: 676022
+- new version 1.0.3
+
+* Sat May 07 2011 Funda Wang <fwang@mandriva.org> 1.0.1-6
++ Revision: 672310
+- rebuild
+
+* Mon Mar 14 2011 Funda Wang <fwang@mandriva.org> 1.0.1-5
++ Revision: 644470
+- rebuild for new boost
+
+* Thu Feb 03 2011 John Balcaen <mikala@mandriva.org> 1.0.1-4
++ Revision: 635680
+- Add patch2 from fedora to fix crash on startup due to new SIP
+
+* Sun Oct 31 2010 Funda Wang <fwang@mandriva.org> 1.0.1-3mdv2011.0
++ Revision: 590766
+- detect py 2.7
+- BR python
+- rebuild for py2.7
+
+* Mon Aug 23 2010 Funda Wang <fwang@mandriva.org> 1.0.1-2mdv2011.0
++ Revision: 572140
+- rebuild for new boost
+
+* Sat Aug 21 2010 Funda Wang <fwang@mandriva.org> 1.0.1-1mdv2011.0
++ Revision: 571737
+- BR python-sip
+- update group
+
+  + José Melo <ze@mandriva.org>
+    - import avogadro
+
+
