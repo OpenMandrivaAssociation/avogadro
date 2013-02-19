@@ -12,6 +12,7 @@ URL:            http://avogadro.openmolecules.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.1.0-qtprefix.patch
 Patch1:		avogadro-1.1.0-textrel.patch
+Patch2:		avogadro-1.1.0-no-strip.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -91,6 +92,7 @@ Development Avogadro files.
 %setup -q
 %patch0 -p0
 %patch1 -p1
+%patch2 -p0
 
 %build
 %{cmake} \
