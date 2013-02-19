@@ -11,6 +11,7 @@ License:        GPLv2
 URL:            http://avogadro.openmolecules.net/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.1.0-qtprefix.patch
+Patch1:		avogadro-1.1.0-textrel.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:  cmake >= 2.6.0
 BuildRequires:  qt4-devel
@@ -45,11 +46,11 @@ rendering and a powerful plugin architecture.
 %{python_sitearch}/Avogadro.so
 %{_datadir}/libavogadro/
 %dir %{_libdir}/%name/
-%dir %{_libdir}/%name/1_0/
-%{_libdir}/%name/1_0/colors
-%{_libdir}/%name/1_0/extensions
-%{_libdir}/%name/1_0/engines
-%{_libdir}/%name/1_0/tools
+%dir %{_libdir}/%name/1_1/
+%{_libdir}/%name/1_1/colors
+%{_libdir}/%name/1_1/extensions
+%{_libdir}/%name/1_1/engines
+%{_libdir}/%name/1_1/tools
 
 
 #--------------------------------------------------------------------
@@ -79,14 +80,15 @@ Development Avogadro files.
 %{_includedir}/%name
 %{_libdir}/libavogadro.so
 %{_libdir}/%name/*.cmake
-%{_libdir}/%name/1_0/*.cmake
-%{_libdir}/%name/1_0/cmake/
+%{_libdir}/%name/1_1/*.cmake
+%{_libdir}/%name/1_1/cmake/
 %{qt4dir}/mkspecs/features/%name.prf
 
 #--------------------------------------------------------------------
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p1
 
 %build
 %{cmake} \
