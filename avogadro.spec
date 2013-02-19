@@ -64,7 +64,7 @@ Libraries for Avogadro molecular editor.
 %files -n %libname
 %defattr(-,root,root,-)
 %{_libdir}/libavogadro.so.%{major}*
-
+%{_libdir}/libavogadro_OpenQube.so.0*
 
 #--------------------------------------------------------------------
 %package devel
@@ -79,10 +79,12 @@ Development Avogadro files.
 %defattr(-,root,root,-)
 %{_includedir}/%name
 %{_libdir}/libavogadro.so
+%{_libdir}/libavogadro_OpenQube.so
 %{_libdir}/%name/*.cmake
 %{_libdir}/%name/1_1/*.cmake
 %{_libdir}/%name/1_1/cmake/
 %{qt4dir}/mkspecs/features/%name.prf
+%{_libdir}/pkgconfig/avogadro.pc
 
 #--------------------------------------------------------------------
 %prep
