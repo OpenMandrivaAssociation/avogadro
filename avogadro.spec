@@ -4,14 +4,14 @@
 %define	libOQ	%mklibname %{name}_OpenQube %{maj0}
 %define	devname	%mklibname %{name}avogadro -d
 
-Summary:        An advanced molecular editor for chemical purposes
-Name:           avogadro
-Group:          System/Libraries
-Version:        1.1.0
-Release:        3
-License:        GPLv2
-Url:            http://avogadro.openmolecules.net/
-Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Summary:	An advanced molecular editor for chemical purposes
+Name:		avogadro
+Group:		System/Libraries
+Version:	1.1.0
+Release:	3
+License:	GPLv2
+Url:		http://avogadro.openmolecules.net/
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.1.0-qtprefix.patch
 Patch1:		avogadro-1.1.0-textrel.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
