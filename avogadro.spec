@@ -13,6 +13,7 @@ License:	GPLv2
 Url:		http://avogadro.openmolecules.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.1.0-qtprefix.patch
+Patch1:		avogadro-1.1.1-arm-compilefix.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
 
 BuildRequires:	cmake >= 2.6.0
@@ -63,9 +64,14 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p1 -b .arm~
 %patch2 -p0
 
 %build
+# Allow C++11 because using the "auto" type is the easiest way to make
+# qtaimcubature.cpp portable across different default float types
+export CFLAGS="%optflags -std=gnu++11"
+export CXXFLAGS="%optflags -std=gnu++11"
 %cmake \
 	-DENABLE_GLSL:BOOL=ON \
 	-DENABLE_PYTHON:BOOL=ON
