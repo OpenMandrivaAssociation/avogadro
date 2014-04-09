@@ -7,13 +7,13 @@
 Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
-Version:	1.1.0
-Release:	5
+Version:	1.1.1
+Release:	1
 License:	GPLv2
 Url:		http://avogadro.openmolecules.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		avogadro-1.1.0-qtprefix.patch
-Patch1:		avogadro-1.1.0-textrel.patch
+Patch1:		avogadro-1.1.1-eigen3.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
 
 BuildRequires:	cmake >= 2.6.0
@@ -22,8 +22,10 @@ BuildRequires:	python-sip
 BuildRequires:	qt4-linguist
 BuildRequires:	boost-devel
 BuildRequires:	python-numpy-devel
-BuildRequires:	qt4-devel
-BuildRequires:	pkgconfig(eigen2)
+BuildRequires:	qt4-devel pkgconfig(QtGui) pkgconfig(QtNetwork) pkgconfig(QtOpenGL)
+BuildRequires:	pkgconfig(eigen3)
+# Make sure we use eigen3, not 2
+BuildConflicts:	pkgconfig(eigen2)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(openbabel-2.0)
@@ -64,10 +66,14 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1
+%patch1 -p1 -b .eigen3~
 %patch2 -p0
 
 %build
+# Allow C++11 because using the "auto" type is the easiest way to make
+# qtaimcubature.cpp portable across different default float types
+export CFLAGS="%optflags -std=gnu++11"
+export CXXFLAGS="%optflags -std=gnu++11"
 %cmake \
 	-DENABLE_GLSL:BOOL=ON \
 	-DENABLE_PYTHON:BOOL=ON
