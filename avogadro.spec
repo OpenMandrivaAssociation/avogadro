@@ -18,10 +18,10 @@ Patch2:		avogadro-1.1.0-no-strip.patch
 
 BuildRequires:	cmake >= 2.6.0
 BuildRequires:	docbook-utils
-BuildRequires:	python-sip
+BuildRequires:	python2-sip
 BuildRequires:	qt4-linguist
 BuildRequires:	boost-devel
-BuildRequires:	python-numpy-devel
+BuildRequires:	python2-numpy-devel
 BuildRequires:	qt4-devel pkgconfig(QtGui) pkgconfig(QtNetwork) pkgconfig(QtOpenGL)
 BuildRequires:	pkgconfig(eigen3)
 # Make sure we use eigen3, not 2
@@ -69,14 +69,16 @@ Development Avogadro files.
 %patch1 -p1 -b .eigen3~
 %patch2 -p0
 
+# (Fedora) nuke unpatched copy, use working version included in cmake instead
+#rm -f cmake/modules/FindPythonLibs.cmake
+
 %build
 # Allow C++11 because using the "auto" type is the easiest way to make
 # qtaimcubature.cpp portable across different default float types
-export CFLAGS="%optflags -std=gnu++11"
-export CXXFLAGS="%optflags -std=gnu++11"
 %cmake \
 	-DENABLE_GLSL:BOOL=ON \
-	-DENABLE_PYTHON:BOOL=ON
+	-DENABLE_PYTHON:BOOL=ON \
+	-DPYTHON_EXECUTABLE=%{__python2}
 %make
 
 %install
@@ -99,7 +101,7 @@ export CXXFLAGS="%optflags -std=gnu++11"
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/avopkg.1*
 # should this be a separate python pkg
-%{python_sitearch}/Avogadro.so
+%{python2_sitearch}/Avogadro.so
 
 %files -n %{libname}
 %{_libdir}/libavogadro.so.%{major}*
