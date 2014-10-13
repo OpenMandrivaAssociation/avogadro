@@ -38,3 +38,14 @@
  
  include_directories(${QT_INCLUDE_DIR} ${EIGEN2_INCLUDE_DIR})
  
+--- avogadro-1.1.1/cmake/modules/AvogadroUse.cmake.orig	2014-10-13 20:13:59.909828034 +0100
++++ avogadro-1.1.1/cmake/modules/AvogadroUse.cmake	2014-10-13 20:15:09.492822908 +0100
+@@ -12,7 +12,7 @@
+ 
+ # Add the Avogadro modules directory to the CMake module path
+ set(CMAKE_MODULE_PATH ${Avogadro_PLUGIN_DIR}/cmake ${CMAKE_MODULE_PATH})
+-find_package(Eigen2 REQUIRED)
++find_package(Eigen3 REQUIRED)
+ include_directories(${EIGEN2_INCLUDE_DIR})
+ if(Avogadro_ENABLE_GLSL)
+   find_package(GLEW)
