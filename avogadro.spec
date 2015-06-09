@@ -16,7 +16,8 @@ Patch0:		avogadro-1.1.0-qtprefix.patch
 Patch1:		avogadro-1.1.1-eigen3.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
 Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
-
+Patch4:		avogadro-1.1.1-pkgconfig_eigen.patch
+Patch5:		avogadro-cmake-3.2.patch
 BuildRequires:	cmake >= 2.6.0
 BuildRequires:	docbook-utils
 BuildRequires:	python2-sip
@@ -70,6 +71,8 @@ Development Avogadro files.
 %patch1 -p1 -b .eigen3~
 %patch2 -p0
 %patch3 -p1 -b .arm
+%patch4 -p1
+%patch5 -p1
 
 # (Fedora) nuke unpatched copy, use working version included in cmake instead
 #rm -f cmake/modules/FindPythonLibs.cmake
@@ -120,4 +123,3 @@ Development Avogadro files.
 %{_libdir}/%{name}/1_1/cmake/
 %{qt4dir}/mkspecs/features/%{name}.prf
 %{_libdir}/pkgconfig/avogadro.pc
-
