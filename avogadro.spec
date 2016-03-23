@@ -8,7 +8,7 @@ Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
 Version:	1.1.1
-Release:	10
+Release:	11
 License:	GPLv2
 Url:		http://avogadro.openmolecules.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
@@ -18,6 +18,7 @@ Patch2:		avogadro-1.1.0-no-strip.patch
 Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
 Patch4:		avogadro-1.1.1-pkgconfig_eigen.patch
 Patch5:		avogadro-cmake-3.2.patch
+Patch6:		avogadro-1.1.1-Q_MOC_RUN.patch
 BuildRequires:	cmake >= 2.6.0
 BuildRequires:	docbook-utils
 BuildRequires:	python2-sip
@@ -73,6 +74,7 @@ Development Avogadro files.
 %patch3 -p1 -b .arm
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # (Fedora) nuke unpatched copy, use working version included in cmake instead
 #rm -f cmake/modules/FindPythonLibs.cmake
