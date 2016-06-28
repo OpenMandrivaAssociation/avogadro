@@ -24,6 +24,7 @@ BuildRequires:	docbook-utils
 BuildRequires:	python2-sip
 BuildRequires:	qt4-linguist
 BuildRequires:	boost-devel
+BuildRequires:	boost-core-devel
 BuildRequires:	python2-numpy-devel
 BuildRequires:	qt4-devel pkgconfig(QtGui) pkgconfig(QtNetwork) pkgconfig(QtOpenGL)
 BuildRequires:	pkgconfig(eigen3)
