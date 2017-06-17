@@ -2,7 +2,7 @@
 %define major	1
 %define libname %mklibname %{name} %{major}
 %define	libOQ	%mklibname %{name}_OpenQube %{maj0}
-%define	devname	%mklibname %{name}avogadro -d
+%define	devname	%mklibname %{name} -d
 %define abi %(echo %{version} |cut -d. -f1-2 |sed -e 's,\\.,_,g')
 
 Summary:	An advanced molecular editor for chemical purposes
