@@ -1,0 +1,10 @@
+--- avogadro-1.2.0/libavogadro/src/extensions/symmetry/libmsym/CMakeLists.txt.omv~	2017-06-17 04:30:53.880520607 +0200
++++ avogadro-1.2.0/libavogadro/src/extensions/symmetry/libmsym/CMakeLists.txt	2017-06-17 04:31:36.260499674 +0200
+@@ -28,6 +28,7 @@ include_directories("${PROJECT_SOURCE_DI
+ 
+ file (GLOB source src/*.c)
+ add_library (msym ${source})
++target_link_libraries(msym m)
+ if (BUILD_SHARED_LIBS)
+         set_target_properties (msym PROPERTIES
+                 POSITION_INDEPENDENT_CODE "TRUE")

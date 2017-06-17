@@ -3,22 +3,24 @@
 %define libname %mklibname %{name} %{major}
 %define	libOQ	%mklibname %{name}_OpenQube %{maj0}
 %define	devname	%mklibname %{name}avogadro -d
+%define abi %(echo %{version} |cut -d. -f1-2 |sed -e 's,\\.,_,g')
 
 Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
-Version:	1.1.1
-Release:	13
+Version:	1.2.0
+Release:	1
 License:	GPLv2
 Url:		http://avogadro.openmolecules.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:		avogadro-1.1.0-qtprefix.patch
-Patch1:		avogadro-1.1.1-eigen3.patch
+#Patch1:		avogadro-1.1.1-eigen3.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
-Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
+#Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
 Patch4:		avogadro-1.1.1-pkgconfig_eigen.patch
-Patch5:		avogadro-cmake-3.2.patch
+#Patch5:		avogadro-cmake-3.2.patch
 Patch6:		avogadro-1.1.1-Q_MOC_RUN.patch
+Patch7:		avogadro-1.2.0-libm-linkage.patch
 BuildRequires:	cmake >= 2.6.0
 BuildRequires:	docbook-utils
 BuildRequires:	python2-sip
@@ -70,12 +72,13 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1 -b .eigen3~
+#patch1 -p1 -b .eigen3~
 %patch2 -p0
-%patch3 -p1 -b .arm
+#patch3 -p1 -b .arm
 %patch4 -p1
-%patch5 -p1
+#patch5 -p1
 %patch6 -p1
+%patch7 -p1 -b .libm~
 
 # (Fedora) nuke unpatched copy, use working version included in cmake instead
 #rm -f cmake/modules/FindPythonLibs.cmake
@@ -86,28 +89,33 @@ Development Avogadro files.
 %cmake \
 	-DENABLE_GLSL:BOOL=ON \
 	-DENABLE_PYTHON:BOOL=ON \
-	-DPYTHON_EXECUTABLE=%{__python2}
+	-DPYTHON_EXECUTABLE=%{__python2} \
+	-DQT_QMAKE_EXECUTABLE=%{_prefix}/lib/qt4/bin/qmake \
+	-DINSTALL_LIB_DIR=%{_libdir} \
+	-DINSTALL_CMAKE_DIR=%{_libdir}/cmake
 %make
 
 %install
 %makeinstall_std -C build
 
 %files
-%doc AUTHORS ChangeLog COPYING
+%doc AUTHORS COPYING
 %{_bindir}/%{name}
 %{_bindir}/avopkg
+%{_bindir}/qube
 %{_datadir}/%{name}
 %{_datadir}/pixmaps/%{name}-icon.png
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/libavogadro/
 %dir %{_libdir}/%{name}/
-%dir %{_libdir}/%{name}/1_1/
-%{_libdir}/%{name}/1_1/colors
-%{_libdir}/%{name}/1_1/extensions
-%{_libdir}/%{name}/1_1/engines
-%{_libdir}/%{name}/1_1/tools
+%dir %{_libdir}/%{name}/%{abi}/
+%{_libdir}/%{name}/%{abi}/colors
+%{_libdir}/%{name}/%{abi}/extensions
+%{_libdir}/%{name}/%{abi}/engines
+%{_libdir}/%{name}/%{abi}/tools
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/avopkg.1*
+%{_libdir}/libmsym.so
 # should this be a separate python pkg
 %{python2_sitearch}/Avogadro.so
 
@@ -119,10 +127,12 @@ Development Avogadro files.
 
 %files -n %{devname}
 %{_includedir}/%{name}
+%{_includedir}/libmsym
 %{_libdir}/libavogadro.so
 %{_libdir}/libavogadro_OpenQube.so
 %{_libdir}/%{name}/*.cmake
-%{_libdir}/%{name}/1_1/*.cmake
-%{_libdir}/%{name}/1_1/cmake/
+%{_libdir}/%{name}/%{abi}/*.cmake
+%{_libdir}/%{name}/%{abi}/cmake/
+%{_libdir}/cmake/*
 %{qt4dir}/mkspecs/features/%{name}.prf
 %{_libdir}/pkgconfig/avogadro.pc
