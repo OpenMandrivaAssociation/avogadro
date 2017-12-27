@@ -9,19 +9,18 @@ Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
 Version:	1.2.0
-Release:	2
+Release:	3
 License:	GPLv2
 Url:		http://avogadro.openmolecules.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch0:		avogadro-1.1.0-qtprefix.patch
-#Patch1:		avogadro-1.1.1-eigen3.patch
 Patch2:		avogadro-1.1.0-no-strip.patch
 #Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
 Patch4:		avogadro-1.1.1-pkgconfig_eigen.patch
 #Patch5:		avogadro-cmake-3.2.patch
 Patch6:		avogadro-1.1.1-Q_MOC_RUN.patch
 Patch7:		avogadro-1.2.0-libm-linkage.patch
-BuildRequires:	cmake >= 2.6.0
+BuildRequires:	cmake >= 2.6.0 ninja
 BuildRequires:	docbook-utils
 BuildRequires:	python2-sip
 BuildRequires:	qt4-linguist
@@ -29,9 +28,10 @@ BuildRequires:	boost-devel
 BuildRequires:	boost-core-devel
 BuildRequires:	python2-numpy-devel
 BuildRequires:	qt4-devel pkgconfig(QtGui) pkgconfig(QtNetwork) pkgconfig(QtOpenGL)
-BuildRequires:	pkgconfig(eigen3)
-# Make sure we use eigen3, not 2
-BuildConflicts:	pkgconfig(eigen2)
+BuildRequires:	pkgconfig(eigen2)
+# Make sure we use eigen2, not 3 -- avogadro is incompatible with
+# Eigen versions >= 3.2 (which drop support for eigen2 legacy APIs)
+BuildConflicts:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(openbabel-2.0)
@@ -72,7 +72,6 @@ Development Avogadro files.
 %prep
 %setup -q
 %patch0 -p0
-#patch1 -p1 -b .eigen3~
 %patch2 -p0
 #patch3 -p1 -b .arm
 %patch4 -p1
@@ -84,6 +83,7 @@ Development Avogadro files.
 #rm -f cmake/modules/FindPythonLibs.cmake
 
 %build
+export PATH=%{_prefix}/lib/qt4/bin:$PATH
 # Allow C++11 because using the "auto" type is the easiest way to make
 # qtaimcubature.cpp portable across different default float types
 %cmake \
@@ -92,11 +92,12 @@ Development Avogadro files.
 	-DPYTHON_EXECUTABLE=%{__python2} \
 	-DQT_QMAKE_EXECUTABLE=%{_prefix}/lib/qt4/bin/qmake \
 	-DINSTALL_LIB_DIR=%{_libdir} \
-	-DINSTALL_CMAKE_DIR=%{_libdir}/cmake
-%make
+	-DINSTALL_CMAKE_DIR=%{_libdir}/cmake \
+	-G Ninja
+%ninja_build
 
 %install
-%makeinstall_std -C build
+%ninja_install -C build
 
 %files
 %doc AUTHORS COPYING
