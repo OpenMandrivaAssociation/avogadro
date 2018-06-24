@@ -8,34 +8,30 @@
 Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
-Version:	1.2.0
-Release:	3
-License:	GPLv2
-Url:		http://avogadro.openmolecules.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
-Patch0:		avogadro-1.1.0-qtprefix.patch
-Patch2:		avogadro-1.1.0-no-strip.patch
-#Patch3:		0029-Fix-compilation-on-ARM-where-qreal-can-be-defined-as.patch
-Patch4:		avogadro-1.1.1-pkgconfig_eigen.patch
-#Patch5:		avogadro-cmake-3.2.patch
-Patch6:		avogadro-1.1.1-Q_MOC_RUN.patch
-Patch7:		avogadro-1.2.0-libm-linkage.patch
-BuildRequires:	cmake >= 2.6.0 ninja
-BuildRequires:	docbook-utils
-BuildRequires:	python2-sip
-BuildRequires:	qt4-linguist
-BuildRequires:	boost-devel
-BuildRequires:	boost-core-devel
-BuildRequires:	python2-numpy-devel
-BuildRequires:	qt4-devel pkgconfig(QtGui) pkgconfig(QtNetwork) pkgconfig(QtOpenGL)
-BuildRequires:	pkgconfig(eigen2)
-# Make sure we use eigen2, not 3 -- avogadro is incompatible with
-# Eigen versions >= 3.2 (which drop support for eigen2 legacy APIs)
-BuildConflicts:	pkgconfig(eigen3)
-BuildRequires:	pkgconfig(glew)
-BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(openbabel-2.0)
-BuildRequires:	pkgconfig(python)
+Version:	1.90.0
+Release:	1
+License:	BSD
+Url:		https://www.openchemistry.org/projects/avogadro2/
+Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}.tar.gz
+Patch0:		http://svnweb.mageia.org/packages/cauldron/avogadro2/current/SOURCES/avogadroapp-1.90.0-fix-build-against-qt-5.11.0.patch
+BuildRequires:  cmake
+BuildRequires:  doxygen
+BuildRequires:  hdf5-devel
+BuildRequires:  spglib-devel
+BuildRequires:  cmake(AvogadroLibs)
+BuildRequires:  cmake(MoleQueue)
+BuildRequires:  pkgconfig(eigen3)
+BuildRequires:  pkgconfig(glew)
+BuildRequires:  pkgconfig(Qt5Concurrent)
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Help)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5OpenGL)
+BuildRequires:  pkgconfig(Qt5Widgets)
+
+Requires:       openbabel
+Requires:       python
 
 %description
 An advanced molecular editor designed for cross-platform use
@@ -70,70 +66,28 @@ Obsoletes:	%{name}-devel < 1.1.0-3
 Development Avogadro files.
 
 %prep
-%setup -q
-%patch0 -p0
-%patch2 -p0
-#patch3 -p1 -b .arm
-%patch4 -p1
-#patch5 -p1
-%patch6 -p1
-%patch7 -p1 -b .libm~
-
-# (Fedora) nuke unpatched copy, use working version included in cmake instead
-#rm -f cmake/modules/FindPythonLibs.cmake
+%autosetup -p1 -n avogadroapp-%{version}
 
 %build
-export PATH=%{_prefix}/lib/qt4/bin:$PATH
-# Allow C++11 because using the "auto" type is the easiest way to make
-# qtaimcubature.cpp portable across different default float types
-%cmake \
-	-DENABLE_GLSL:BOOL=ON \
-	-DENABLE_PYTHON:BOOL=ON \
-	-DPYTHON_EXECUTABLE=%{__python2} \
-	-DQT_QMAKE_EXECUTABLE=%{_prefix}/lib/qt4/bin/qmake \
-	-DINSTALL_LIB_DIR=%{_libdir} \
-	-DINSTALL_CMAKE_DIR=%{_libdir}/cmake \
+%cmake_qt5 \
+	-DENABLE_TESTING:BOOL=OFF \
+	-DBUILD_DOCUMENTATION:BOOL=ON \
 	-G Ninja
 %ninja_build
 
 %install
 %ninja_install -C build
 
+# more icons
+for i in 64 128 256 512; do
+	install -Dpm 644 avogadro/icons/%{name}2_${i}.png %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}2.png
+done
+
 %files
-%doc AUTHORS COPYING
-%{_bindir}/%{name}
-%{_bindir}/avopkg
-%{_bindir}/qube
-%{_datadir}/%{name}
-%{_datadir}/pixmaps/%{name}-icon.png
-%{_datadir}/applications/%{name}.desktop
-%{_datadir}/libavogadro/
-%dir %{_libdir}/%{name}/
-%dir %{_libdir}/%{name}/%{abi}/
-%{_libdir}/%{name}/%{abi}/colors
-%{_libdir}/%{name}/%{abi}/extensions
-%{_libdir}/%{name}/%{abi}/engines
-%{_libdir}/%{name}/%{abi}/tools
-%{_mandir}/man1/%{name}.1*
-%{_mandir}/man1/avopkg.1*
-%{_libdir}/libmsym.so
-# should this be a separate python pkg
-%{python2_sitearch}/Avogadro.so
-
-%files -n %{libname}
-%{_libdir}/libavogadro.so.%{major}*
-
-%files -n %{libOQ}
-%{_libdir}/libavogadro_OpenQube.so.%{maj0}*
-
-%files -n %{devname}
-%{_includedir}/%{name}
-%{_includedir}/libmsym
-%{_libdir}/libavogadro.so
-%{_libdir}/libavogadro_OpenQube.so
-%{_libdir}/%{name}/*.cmake
-%{_libdir}/%{name}/%{abi}/*.cmake
-%{_libdir}/%{name}/%{abi}/cmake/
-%{_libdir}/cmake/*
-%{qt4dir}/mkspecs/features/%{name}.prf
-%{_libdir}/pkgconfig/avogadro.pc
+%doc CONTRIBUTING.md README.md
+%doc %{_docdir}/AvogadroApp
+%license COPYING
+%{_bindir}/%{name}2
+%{_datadir}/applications/%{name}2.desktop
+%{_datadir}/pixmaps/%{name}2.png
+%{_iconsdir}/hicolor/*/apps/%{name}2.png

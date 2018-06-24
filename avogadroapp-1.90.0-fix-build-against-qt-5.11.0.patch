@@ -1,0 +1,21 @@
+diff -Nru a/avogadro/CMakeLists.txt b/avogadro/CMakeLists.txt
+--- a/avogadro/CMakeLists.txt	2016-12-02 19:19:39.000000000 +0100
++++ b/avogadro/CMakeLists.txt	2018-06-02 12:35:24.523435455 +0200
+@@ -16,7 +16,7 @@
+ endif()
+ 
+ # Find the Qt components we need.
+-find_package(Qt5 COMPONENTS Widgets OpenGL Network REQUIRED)
++find_package(Qt5 COMPONENTS Widgets OpenGL Network Concurrent REQUIRED)
+ 
+ configure_file(avogadroappconfig.h.in avogadroappconfig.h)
+ 
+@@ -87,7 +87,7 @@
+ 
+ add_executable(avogadro WIN32 MACOSX_BUNDLE
+   ${avogadro_srcs} ${ui_srcs} ${rcc_srcs})
+-qt5_use_modules(avogadro Widgets OpenGL Network Concurrent)
++target_link_libraries(avogadro Qt5::Widgets Qt5::OpenGL Qt5::Network Qt5::Concurrent)
+ if(WIN32)
+   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:MSVCRTD")
+   target_link_libraries(avogadro Qt5::WinMain)
