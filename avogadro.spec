@@ -29,6 +29,7 @@ BuildRequires:  pkgconfig(Qt5Help)
 BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5OpenGL)
 BuildRequires:  pkgconfig(Qt5Widgets)
+BuildRequires:	qt5-macros
 
 Requires:       openbabel
 Requires:       python
