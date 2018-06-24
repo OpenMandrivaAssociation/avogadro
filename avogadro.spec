@@ -14,6 +14,7 @@ License:	BSD
 Url:		https://www.openchemistry.org/projects/avogadro2/
 Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}.tar.gz
 Patch0:		http://svnweb.mageia.org/packages/cauldron/avogadro2/current/SOURCES/avogadroapp-1.90.0-fix-build-against-qt-5.11.0.patch
+BuildRequires:	cmake(ECM)
 BuildRequires:  cmake ninja
 BuildRequires:  doxygen
 BuildRequires:  hdf5-devel
