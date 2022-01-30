@@ -12,7 +12,7 @@ Version:	1.95.1
 Release:	1
 License:	BSD
 Url:		https://www.openchemistry.org/projects/avogadro2/
-Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}.tar.gz
+Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}/avogadroapp-%{version}.tar.gz
 BuildRequires:	cmake(ECM)
 BuildRequires:  cmake ninja
 BuildRequires:  doxygen
