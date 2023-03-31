@@ -9,7 +9,7 @@ Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
 Version:	1.93.0
-Release:	2
+Release:	3
 License:	BSD
 Url:		https://www.openchemistry.org/projects/avogadro2/
 Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}.tar.gz
