@@ -4,6 +4,7 @@
 %define libOQ %mklibname %{name}_OpenQube %{maj0}
 %define devname	%mklibname %{name} -d
 %define abi %(echo %{version} |cut -d. -f1-2 |sed -e 's,\\.,_,g')
+%define i18n_version	1.99.0
 
 Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
@@ -13,6 +14,7 @@ Release:	1
 License:	BSD
 Url:		https://www.openchemistry.org/projects/avogadro2/
 Source0:	https://github.com/OpenChemistry/avogadroapp/archive/%{version}.tar.gz
+Source1:	https://github.com/OpenChemistry/avogadro-i18n/archive/%{i18n_version}/avogadro-i18n-%{i18n_version}.tar.gz
 BuildRequires:	cmake(ECM)
 BuildRequires:	doxygen
 BuildRequires:	hdf5-devel
@@ -66,7 +68,11 @@ Obsoletes:	%{name}-devel < 1.1.0-3
 Development Avogadro files.
 
 %prep
-%autosetup -p1 -n avogadroapp-%{version}
+%autosetup -p1 -n avogadroapp-%{version} -a1
+
+
+# help cmake to find translations
+ln -s ${PWD}/avogadro-i18n-%{i18n_version}/ ../avogadro-i18n
 
 %build
 %cmake_qt5 \
