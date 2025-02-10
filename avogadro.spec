@@ -20,7 +20,6 @@ BuildRequires:	doxygen
 BuildRequires:	hdf5-devel
 BuildRequires:	spglib-devel
 BuildRequires:	cmake(AvogadroLibs)
-BuildRequires:	cmake(MoleQueue)
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glew)
 BuildRequires:	pkgconfig(Qt6Concurrent)
@@ -29,6 +28,7 @@ BuildRequires:	pkgconfig(Qt6Gui)
 BuildRequires:	pkgconfig(Qt6Help)
 BuildRequires:	pkgconfig(Qt6Network)
 BuildRequires:	pkgconfig(Qt6OpenGL)
+BuildRequires:	pkgconfig(Qt6OpenGLWidgets)
 BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(glu)
 Requires:	openbabel
