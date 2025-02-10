@@ -4,12 +4,12 @@
 %define libOQ %mklibname %{name}_OpenQube %{maj0}
 %define devname	%mklibname %{name} -d
 %define abi %(echo %{version} |cut -d. -f1-2 |sed -e 's,\\.,_,g')
-%define i18n_version	1.99.0
+%define i18n_version	1.100.0
 
 Summary:	An advanced molecular editor for chemical purposes
 Name:		avogadro
 Group:		System/Libraries
-Version:	1.99.0
+Version:	1.100.0
 Release:	1
 License:	BSD
 Url:		https://www.openchemistry.org/projects/avogadro2/
@@ -23,14 +23,13 @@ BuildRequires:	cmake(AvogadroLibs)
 BuildRequires:	cmake(MoleQueue)
 BuildRequires:	pkgconfig(eigen3)
 BuildRequires:	pkgconfig(glew)
-BuildRequires:	pkgconfig(Qt5Concurrent)
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5Help)
-BuildRequires:	pkgconfig(Qt5Network)
-BuildRequires:	pkgconfig(Qt5OpenGL)
-BuildRequires:	pkgconfig(Qt5Widgets)
-BuildRequires:	qt5-macros
+BuildRequires:	pkgconfig(Qt6Concurrent)
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+BuildRequires:	pkgconfig(Qt6Help)
+BuildRequires:	pkgconfig(Qt6Network)
+BuildRequires:	pkgconfig(Qt6OpenGL)
+BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(glu)
 Requires:	openbabel
 Requires:	python
@@ -75,9 +74,11 @@ Development Avogadro files.
 ln -s ${PWD}/avogadro-i18n-%{i18n_version}/ ../avogadro-i18n
 
 %build
-%cmake_qt5 \
+%cmake \
+        -DQT_VERSION=6 \
 	-DENABLE_TESTING:BOOL=OFF \
 	-DBUILD_DOCUMENTATION:BOOL=ON \
+        -DAvogadro_ENABLE_RPC=OFF \
 	-G Ninja
 %ninja_build
 
@@ -93,9 +94,9 @@ done
 %doc CONTRIBUTING.md README.md
 %doc %{_docdir}/AvogadroApp
 %{_bindir}/%{name}2
-%{_datadir}/applications/%{name}2.desktop
-%{_datadir}/pixmaps/%{name}2.png
+%{_datadir}/applications/org.openchemistry.Avogadro2.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}2.png
+%{_iconsdir}/hicolor/*/apps/org.openchemistry.Avogadro2.{png,svg}
 %{_datadir}/avogadro2/i18n/avogadroapp-*.qm
 %{_datadir}/avogadro2/i18n/avogadrolibs-*.qm
-%{_metainfodir}/avogadro2.appdata.xml
+%{_metainfodir}/org.openchemistry.Avogadro2.metainfo.xml
